@@ -15,8 +15,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 
-import com.philliphsu.numberpadtimepicker.BottomSheetNumberPadTimePickerDialog;
-
 import net.danlew.android.joda.JodaTimeAndroid;
 
 import org.joda.time.DateTime;
@@ -32,7 +30,7 @@ public class MainActivity extends AppCompatActivity {
         JodaTimeAndroid.init(this);
         AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
         findViewById(R.id.alarm_btn).setOnClickListener(v -> {
-            BottomSheetNumberPadTimePickerDialog dialog = new BottomSheetNumberPadTimePickerDialog(
+            /*BottomSheetNumberPadTimePickerDialog dialog = new BottomSheetNumberPadTimePickerDialog(
                     this, (view, hourOfDay, minutes) -> {
                 Log.d(MainActivity.class.getSimpleName(), "Time " + hourOfDay + ":" + minutes);
                 DateTime todayWithSelectedTime = DateTime.now().withHourOfDay(hourOfDay).withMinuteOfHour(minutes).withSecondOfMinute(0);
@@ -49,29 +47,7 @@ public class MainActivity extends AppCompatActivity {
             }
                     , true
             );
-            dialog.show();
+            dialog.show();*/
         });
     }
-
-
-  /*  private Notification getNotification(String context) {
-        Uri alarmSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
-        Notification.Builder builder = new Notification.Builder(this);
-        builder.setContentTitle("Scheduled Notification");
-        builder.setContentText(context);
-        builder.setAutoCancel(true);
-        builder.setSound(alarmSound);
-        builder.setSmallIcon(R.mipmap.ic_launcher);
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            String channelId = "NotificationSampleId";
-            NotificationChannel channel = new NotificationChannel(channelId,
-                    "Notification Sample",
-                    NotificationManager.IMPORTANCE_DEFAULT);
-            notificationManager.createNotificationChannel(channel);
-            builder.setChannelId(channelId);
-        }
-
-        return builder.build();
-    }*/
 }
