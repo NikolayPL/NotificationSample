@@ -28,7 +28,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        NotificationManager notificationManager = (NotificationManager) this.getSystemService(Context.NOTIFICATION_SERVICE);
+        notificationManager = (NotificationManager) this.getSystemService(Context.NOTIFICATION_SERVICE);
         JodaTimeAndroid.init(this);
         AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
         findViewById(R.id.alarm_btn).setOnClickListener(v -> {
@@ -42,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
                     Log.d(MainActivity.class.getSimpleName(), "Future!! Could be scheduled");
                     Intent intent = new Intent(MainActivity.this, NotificationPublisher.class);
                     intent.putExtra(NotificationPublisher.NOTIFICATION_ID, 42);
-                    intent.putExtra(NotificationPublisher.NOTIFICATION, getNotification("WAKE UP"));
+                    // intent.putExtra(NotificationPublisher.NOTIFICATION, getNotification("WAKE UP"));
                     PendingIntent pendingIntent = PendingIntent.getBroadcast(MainActivity.this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
                     alarmManager.set(AlarmManager.ELAPSED_REALTIME_WAKEUP,SystemClock.elapsedRealtime() + delay, pendingIntent);
                 }
@@ -54,7 +54,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    private Notification getNotification(String context) {
+  /*  private Notification getNotification(String context) {
         Uri alarmSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
         Notification.Builder builder = new Notification.Builder(this);
         builder.setContentTitle("Scheduled Notification");
@@ -73,5 +73,5 @@ public class MainActivity extends AppCompatActivity {
         }
 
         return builder.build();
-    }
+    }*/
 }
