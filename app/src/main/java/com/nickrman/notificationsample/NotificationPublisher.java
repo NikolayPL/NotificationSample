@@ -25,7 +25,8 @@ public class NotificationPublisher extends BroadcastReceiver {
         }
         message = message.isEmpty() ? "Wake up" : message;
         int id = intent.getIntExtra(NOTIFICATION_ID, 0 );
-        Intent i = new Intent(context, MainActivity.class);
+        Intent i = new Intent(context, MapsActivity.class);
+        i.putExtras(intent.getExtras());
         PendingIntent pendingIntent = PendingIntent.getActivity(context, 0 , i, PendingIntent.FLAG_UPDATE_CURRENT);
         Notification notification = getNotification(message, notificationManager, context)
                 .setContentIntent(pendingIntent).build();
