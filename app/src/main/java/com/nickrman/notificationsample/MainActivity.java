@@ -28,26 +28,28 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         notificationManager = (NotificationManager) this.getSystemService(Context.NOTIFICATION_SERVICE);
         JodaTimeAndroid.init(this);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            // Create channel to show notifications.
+            String channelId  = "NotificationSampleId";
+            String channelName = "Notification Sample";
+            NotificationManager notificationManager =
+                    getSystemService(NotificationManager.class);
+            notificationManager.createNotificationChannel(new NotificationChannel(channelId,
+                    channelName, NotificationManager.IMPORTANCE_LOW));
+        }
+        JodaTimeAndroid.init(this);
         AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
         findViewById(R.id.alarm_btn).setOnClickListener(v -> {
-            /*BottomSheetNumberPadTimePickerDialog dialog = new BottomSheetNumberPadTimePickerDialog(
-                    this, (view, hourOfDay, minutes) -> {
-                Log.d(MainActivity.class.getSimpleName(), "Time " + hourOfDay + ":" + minutes);
-                DateTime todayWithSelectedTime = DateTime.now().withHourOfDay(hourOfDay).withMinuteOfHour(minutes).withSecondOfMinute(0);
-                DateTime now = DateTime.now();
-                if (todayWithSelectedTime.isAfter(DateTime.now())) {
-                    long delay = todayWithSelectedTime.getMillis() - now.getMillis();
-                    Log.d(MainActivity.class.getSimpleName(), "Future!! Could be scheduled");
-                    Intent intent = new Intent(MainActivity.this, NotificationPublisher.class);
-                    intent.putExtra(NotificationPublisher.NOTIFICATION_ID, 42);
-                    // intent.putExtra(NotificationPublisher.NOTIFICATION, getNotification("WAKE UP"));
-                    PendingIntent pendingIntent = PendingIntent.getBroadcast(MainActivity.this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-                    alarmManager.set(AlarmManager.ELAPSED_REALTIME_WAKEUP,SystemClock.elapsedRealtime() + delay, pendingIntent);
-                }
+            DateTime todayWithSelectedTime = DateTime.now().plusSeconds(30);
+            DateTime now = DateTime.now();
+            if (todayWithSelectedTime.isAfter(DateTime.now())) {
+                long delay = todayWithSelectedTime.getMillis() - now.getMillis();
+                Log.d(MainActivity.class.getSimpleName(), "Future!! Could be scheduled");
+                Intent intent = new Intent(MainActivity.this, NotificationPublisher.class);
+                intent.putExtra(NotificationPublisher.NOTIFICATION_ID, 42);
+                PendingIntent pendingIntent = PendingIntent.getBroadcast(MainActivity.this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+                alarmManager.set(AlarmManager.ELAPSED_REALTIME_WAKEUP,SystemClock.elapsedRealtime() + delay, pendingIntent);
             }
-                    , true
-            );
-            dialog.show();*/
         });
     }
 }

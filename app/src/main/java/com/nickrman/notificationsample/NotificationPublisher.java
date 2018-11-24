@@ -19,11 +19,15 @@ public class NotificationPublisher extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
         NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-       // Notification notification = intent.getParcelableExtra(NOTIFICATION);
+        String message = "";
+        if (intent.getExtras().containsKey(FCMService.MESSAGE)) {
+           message = intent.getStringExtra(FCMService.MESSAGE);
+        }
+        message = message.isEmpty() ? "Wake up" : message;
         int id = intent.getIntExtra(NOTIFICATION_ID, 0 );
         Intent i = new Intent(context, MainActivity.class);
         PendingIntent pendingIntent = PendingIntent.getActivity(context, 0 , i, PendingIntent.FLAG_UPDATE_CURRENT);
-        Notification notification = getNotification("wake up!!!", notificationManager, context)
+        Notification notification = getNotification(message, notificationManager, context)
                 .setContentIntent(pendingIntent).build();
         notificationManager.notify(id, notification);
     }
