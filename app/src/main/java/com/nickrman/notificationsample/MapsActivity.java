@@ -5,11 +5,13 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.location.Location;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.content.res.AppCompatResources;
 import android.widget.Toast;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -20,10 +22,13 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.Circle;
+import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.PolylineOptions;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 
 import java.util.HashMap;
@@ -116,9 +121,22 @@ public class MapsActivity extends FragmentActivity {
                 builder.include(myPosition.getPosition());
                 builder.include(myLocation);
             }
+           mMap.addCircle(new CircleOptions()
+                    .center(myLocation)
+                    .radius(radius)
+                    .strokeColor(getResources().getColor(R.color.orange))
+                    .fillColor(getResources().getColor(R.color.orange_accent)));
+            mMap.addPolyline(new PolylineOptions()
+                    .add(myLocation, myPosition.getPosition())
+                    .width(5)
+                    .color(getResources().getColor(R.color.orange))
+
+            );
             LatLngBounds bounds = builder.build();
-            CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(bounds,100);
+            CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(bounds,300);
+            //CameraUpdate cu = CameraUpdateFactory.newLatLngZoom(myLocation,13);
             mMap.animateCamera(cu);
+            mMap.animateCamera(CameraUpdateFactory.zoomTo(12));
         }
     }
 
